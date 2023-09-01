@@ -30,13 +30,10 @@ class TodoList extends StatefulWidget {
 class _TodoListState extends State<TodoList> {
   String todoText = "";
   List<String> todos = [];
-  List<Map> todosMap = [
-    {"text": "test", "id": "1"},
-    {"text": "test2", "id": "2"}
-  ];
+  List<Map> todosMap = [];
   void _removeTodo(value) {
     setState(() {
-      todos.remove(value);
+      todosMap.remove(value);
     });
   }
 
@@ -64,8 +61,8 @@ class _TodoListState extends State<TodoList> {
                 // ignore: avoid_print
                 for (var i = 0; i < todosMap.length; i++)
                   TodoItem(
-                    todoText: todosMap[i]["text"],
-                    pls: _removeTodo,
+                    todoMap: todosMap[i],
+                    removeTodoItem: _removeTodo,
                   ),
               ],
             ),

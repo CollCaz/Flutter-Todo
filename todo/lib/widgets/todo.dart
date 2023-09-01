@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class TodoItem extends StatefulWidget {
-  final String todoText;
-  final Function pls;
-  const TodoItem({super.key, required this.todoText, required this.pls});
+  final Function removeTodoItem;
+  final Map todoMap;
+  const TodoItem(
+      {super.key, required this.todoMap, required this.removeTodoItem});
 
   @override
   State<TodoItem> createState() => _TodoItemState();
@@ -19,12 +20,12 @@ class _TodoItemState extends State<TodoItem> {
         secondary: IconButton(
             onPressed: () {
               setState(() {
-                widget.pls(widget.todoText);
+                widget.removeTodoItem(widget.todoMap);
               });
             },
-            icon: Icon(Icons.delete)),
+            icon: const Icon(Icons.delete)),
         controlAffinity: ListTileControlAffinity.platform,
-        title: Text(widget.todoText),
+        title: Text(widget.todoMap["text"]),
         onChanged: (bool? value) {
           setState(() {
             checked = value!;
