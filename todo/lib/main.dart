@@ -38,7 +38,7 @@ class _TodoListState extends State<TodoList> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> todos = ["ss", "gfd"];
+    List<String> todos = [_counter.toString(), "gfd"];
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(

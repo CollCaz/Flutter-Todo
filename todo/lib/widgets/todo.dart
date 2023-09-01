@@ -9,24 +9,23 @@ class TodoItem extends StatefulWidget {
 }
 
 class _TodoItemState extends State<TodoItem> {
+  bool checked = false;
   @override
   Widget build(BuildContext context) {
 /*     return Padding(
       padding: const EdgeInsets.all(9.0),
       child: Text(todoText),
     ); */
-    bool checked = false;
     return Card(
       child: CheckboxListTile(
         value: checked,
-        onChanged: (value) {
-          setState(() {
-            _checked = value;
-            print(value);
-          });
-        },
         onFocusChange: (value) => print(value),
         title: Text(widget.todoText),
+        onChanged: (bool? value) {
+          setState(() {
+            checked = value!;
+          });
+        },
       ),
     );
   }
