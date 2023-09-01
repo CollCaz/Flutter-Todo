@@ -38,6 +38,7 @@ class _TodoListState extends State<TodoList> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> todos = ["ss", "gfd"];
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
@@ -48,13 +49,8 @@ class _TodoListState extends State<TodoList> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            // ignore: avoid_print
+            for (String item in todos) TodoItem(todoText: item),
           ],
         ),
       ),
