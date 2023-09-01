@@ -29,29 +29,39 @@ class TodoList extends StatefulWidget {
 
 class _TodoListState extends State<TodoList> {
   int _counter = 0;
+  String todoText = "";
   List<String> todos = [];
   void _incrementCounter() {
     setState(() {
       _counter++;
-      todos.add(_counter.toString());
+      todos.add(todoText);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-        child: ListView(
-          children: <Widget>[
-            // ignore: avoid_print
-            for (String item in todos.reversed) TodoItem(todoText: item),
-          ],
-        ),
+      body: Stack(
+        children: [
+          Center(
+            child: ListView(
+              children: <Widget>[
+                // ignore: avoid_print
+                for (String item in todos.reversed) TodoItem(todoText: item),
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: TextField(
+              onChanged: (value) => todoText = value,
+            ),
+          )
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
