@@ -28,13 +28,11 @@ class TodoList extends StatefulWidget {
 }
 
 class _TodoListState extends State<TodoList> {
-  int _counter = 0;
   String todoText = "";
   List<String> todos = [];
-  void _incrementCounter() {
+  void _addTodoItem() {
     setState(() {
-      _counter++;
-      todos.add(todoText);
+      todoText == "" ? DoNothingAction() : todos.add(todoText);
     });
   }
 
@@ -59,12 +57,13 @@ class _TodoListState extends State<TodoList> {
             alignment: Alignment.bottomCenter,
             child: TextField(
               onChanged: (value) => todoText = value,
+              onSubmitted: (value) => _addTodoItem(),
             ),
-          )
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: _addTodoItem,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
