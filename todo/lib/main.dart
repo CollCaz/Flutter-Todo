@@ -47,7 +47,7 @@ class _TodoListState extends State<TodoList> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             // ignore: avoid_print
             for (String item in todos) TodoItem(todoText: item),
