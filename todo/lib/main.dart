@@ -58,6 +58,9 @@ class _TodoListState extends State<TodoList> {
             child: TextField(
               onChanged: (value) => todoText = value,
               onSubmitted: (value) => _addTodoItem(),
+              decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Theme.of(context).colorScheme.inversePrimary),
             ),
           ),
         ],
