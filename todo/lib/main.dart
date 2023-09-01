@@ -30,9 +30,22 @@ class TodoList extends StatefulWidget {
 class _TodoListState extends State<TodoList> {
   String todoText = "";
   List<String> todos = [];
+  List<Map> todosMap = [
+    {"text": "test", "id": "1"},
+    {"text": "test2", "id": "2"}
+  ];
+  void _removeTodo(value) {
+    setState(() {
+      todos.remove(value);
+    });
+  }
+
   void _addTodoItem() {
     setState(() {
-      todoText == "" ? DoNothingAction() : todos.add(todoText);
+      todoText == ""
+          ? DoNothingAction()
+          : todosMap.add(
+              {"text": todoText, "id": DateTime.now().microsecondsSinceEpoch});
     });
   }
 
@@ -49,7 +62,11 @@ class _TodoListState extends State<TodoList> {
             child: ListView(
               children: <Widget>[
                 // ignore: avoid_print
-                for (String item in todos.reversed) TodoItem(todoText: item),
+                for (var i = 0; i < todosMap.length; i++)
+                  TodoItem(
+                    todoText: todosMap[i]["text"],
+                    pls: _removeTodo,
+                  ),
               ],
             ),
           ),
@@ -59,6 +76,7 @@ class _TodoListState extends State<TodoList> {
               onChanged: (value) => todoText = value,
               onSubmitted: (value) => _addTodoItem(),
               decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.all(15),
                   filled: true,
                   fillColor: Theme.of(context).colorScheme.inversePrimary),
             ),
