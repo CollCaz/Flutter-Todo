@@ -29,16 +29,16 @@ class TodoList extends StatefulWidget {
 
 class _TodoListState extends State<TodoList> {
   int _counter = 0;
-
+  List<String> todos = [];
   void _incrementCounter() {
     setState(() {
       _counter++;
+      todos.add(_counter.toString());
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    List<String> todos = [_counter.toString(), "gfd"];
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
@@ -46,11 +46,10 @@ class _TodoListState extends State<TodoList> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+        child: ListView(
           children: <Widget>[
             // ignore: avoid_print
-            for (String item in todos) TodoItem(todoText: item),
+            for (String item in todos.reversed) TodoItem(todoText: item),
           ],
         ),
       ),
