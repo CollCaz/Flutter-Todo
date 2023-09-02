@@ -75,7 +75,8 @@ class _TodoListState extends State<TodoList> {
               decoration: InputDecoration(
                   contentPadding: const EdgeInsets.all(15),
                   filled: true,
-                  fillColor: Theme.of(context).colorScheme.inversePrimary),
+                  fillColor: Theme.of(context).colorScheme.inversePrimary,
+                  hintText: "What do you want to do?"),
             ),
           ),
         ],
