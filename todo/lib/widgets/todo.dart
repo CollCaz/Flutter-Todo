@@ -3,20 +3,19 @@ import 'package:flutter/material.dart';
 class TodoItem extends StatefulWidget {
   final Function removeTodoItem;
   final Map todoMap;
-  const TodoItem(
-      {super.key, required this.todoMap, required this.removeTodoItem});
+  bool checked = false;
+  TodoItem({super.key, required this.todoMap, required this.removeTodoItem});
 
   @override
   State<TodoItem> createState() => _TodoItemState();
 }
 
 class _TodoItemState extends State<TodoItem> {
-  bool checked = false;
   @override
   Widget build(BuildContext context) {
     return Card(
       child: CheckboxListTile(
-        value: checked,
+        value: widget.todoMap["checked"],
         secondary: IconButton(
             onPressed: () {
               setState(() {
@@ -25,10 +24,10 @@ class _TodoItemState extends State<TodoItem> {
             },
             icon: const Icon(Icons.delete)),
         controlAffinity: ListTileControlAffinity.platform,
-        title: Text(widget.todoMap["text"]),
+        title: Text(widget.todoMap["id"].toString()),
         onChanged: (bool? value) {
           setState(() {
-            checked = value!;
+            widget.todoMap["checked"] = value!;
           });
         },
       ),

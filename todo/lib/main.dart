@@ -31,7 +31,7 @@ class _TodoListState extends State<TodoList> {
   String todoText = "";
   List<String> todos = [];
   List<Map> todosMap = [];
-  void _removeTodo(value) {
+  void _removeTodo(Map value) {
     setState(() {
       todosMap.remove(value);
     });
@@ -41,8 +41,11 @@ class _TodoListState extends State<TodoList> {
     setState(() {
       todoText == ""
           ? DoNothingAction()
-          : todosMap.add(
-              {"text": todoText, "id": DateTime.now().microsecondsSinceEpoch});
+          : todosMap.add({
+              "text": todoText,
+              "checked": false,
+              "id": DateTime.now().microsecondsSinceEpoch
+            });
     });
   }
 
