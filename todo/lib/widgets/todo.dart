@@ -4,7 +4,8 @@ class TodoItem extends StatefulWidget {
   final Function removeTodoItem;
   final Map todoMap;
   final bool checked = false;
-  TodoItem({super.key, required this.todoMap, required this.removeTodoItem});
+  const TodoItem(
+      {super.key, required this.todoMap, required this.removeTodoItem});
 
   @override
   State<TodoItem> createState() => _TodoItemState();
@@ -24,7 +25,13 @@ class _TodoItemState extends State<TodoItem> {
             },
             icon: const Icon(Icons.delete)),
         controlAffinity: ListTileControlAffinity.platform,
-        title: Text(widget.todoMap["id"].toString()),
+        title: Text(
+          widget.todoMap["text"],
+          style: TextStyle(
+              decoration: widget.todoMap["checked"] == true
+                  ? TextDecoration.lineThrough
+                  : TextDecoration.none),
+        ),
         onChanged: (bool? value) {
           setState(() {
             widget.todoMap["checked"] = value!;
