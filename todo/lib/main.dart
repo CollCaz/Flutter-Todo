@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:todo/widgets/todo.dart';
 
@@ -33,6 +35,13 @@ class _TodoListState extends State<TodoList> {
 
   final TextEditingController _todoListTextController = TextEditingController();
   // controlls the field used to input to do list items
+
+  Future<String> get _localPath async {
+  final directory = await getApplicationDocumentsDirectory();
+
+  return directory.path;
+}
+// gives path to local documents directory used to store list items
 
   void _removeTodo(Map value) {
     setState(() {
