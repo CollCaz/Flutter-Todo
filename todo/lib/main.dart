@@ -19,9 +19,8 @@ class TodoApp extends StatelessWidget {
 }
 
 class TodoList extends StatefulWidget {
-  const TodoList({super.key, required this.title});
-
   final String title;
+  const TodoList({super.key, required this.title});
 
   @override
   State<TodoList> createState() => _TodoListState();
@@ -76,18 +75,21 @@ class _TodoListState extends State<TodoList> {
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: TextField(
+            child: Padding(
+              padding: const EdgeInsets.only(right: 80),
+              child: TextField(
               controller: _toDoListTextController,
-              onChanged: (value) => todoText = value,
-              onSubmitted: (value) => {
+                onChanged: (value) => todoText = value,
+                onSubmitted: (value) => {
                 _addTodoItem(), // adds item to "to do list"
                 _toDoListTextController.clear() // clears to text field for next input
               },
-              decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(15),
-                  filled: true,
-                  fillColor: Theme.of(context).colorScheme.inversePrimary,
-                  hintText: "What do you want to do?"),
+                decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.all(15),
+                    filled: true,
+                    fillColor: Theme.of(context).colorScheme.inversePrimary,
+                    hintText: "What do you want to do?"),
+              ),
             ),
           ),
         ],
