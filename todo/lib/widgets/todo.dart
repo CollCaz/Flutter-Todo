@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class TodoItem extends StatefulWidget {
   final Function removeTodoItem;
   final Map todoMap;
-  bool checked = false;
+  final bool checked = false;
   TodoItem({super.key, required this.todoMap, required this.removeTodoItem});
 
   @override
