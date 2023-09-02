@@ -56,8 +56,15 @@ class _TodoListState extends State<TodoList> {
           : todosMap.add({
               "text": todoText,
               "checked": false,
-              "id": DateTime.now().microsecondsSinceEpoch
+              "id": DateTime.now().millisecondsSinceEpoch,
             });
+    });
+  }
+
+  void _addTodoItemAndClearText() {
+    setState(() {
+      _addTodoItem();
+      _todoListTextController.clear();
     });
   }
 
@@ -73,7 +80,6 @@ class _TodoListState extends State<TodoList> {
           Center(
             child: ListView(
               children: <Widget>[
-                // ignore: avoid_print
                 for (var i = 0; i < todosMap.length; i++)
                   TodoItem(
                     todoMap: todosMap[i],
@@ -85,14 +91,12 @@ class _TodoListState extends State<TodoList> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: const EdgeInsets.only(right: 80),
+              padding: const EdgeInsets.all(2),
               child: TextField(
                 controller: _todoListTextController,
                 onChanged: (value) => todoText = value,
                 onSubmitted: (value) => {
-                  _addTodoItem(), // adds item to "to do list"
-                  _todoListTextController
-                      .clear() // clears to text field for next input
+                  _addTodoItemAndClearText(),
                 },
                 decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(15),
@@ -105,7 +109,7 @@ class _TodoListState extends State<TodoList> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => {_addTodoItem(), _todoListTextController.clear()},
+        onPressed: () => {_addTodoItemAndClearText()},
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
