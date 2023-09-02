@@ -31,6 +31,10 @@ class _TodoListState extends State<TodoList> {
   String todoText = "";
   List<String> todos = [];
   List<Map> todosMap = [];
+
+  final TextEditingController _toDoListTextController = TextEditingController();
+  // controlls the field used to input to do list items
+
   void _removeTodo(Map value) {
     setState(() {
       todosMap.remove(value);
@@ -73,8 +77,12 @@ class _TodoListState extends State<TodoList> {
           Align(
             alignment: Alignment.bottomCenter,
             child: TextField(
+              controller: _toDoListTextController,
               onChanged: (value) => todoText = value,
-              onSubmitted: (value) => _addTodoItem(),
+              onSubmitted: (value) => {
+                _addTodoItem(), // adds item to "to do list"
+                _toDoListTextController.clear() // clears to text field for next input
+              },
               decoration: InputDecoration(
                   contentPadding: const EdgeInsets.all(15),
                   filled: true,
@@ -85,9 +93,12 @@ class _TodoListState extends State<TodoList> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _addTodoItem,
+        onPressed: () => {
+          _addTodoItem,
+          _toDoListTextController.clear()
+        },
         tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add), // also clears text field for new inputs
       ),
     );
   }
