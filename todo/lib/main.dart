@@ -32,7 +32,7 @@ class _TodoListState extends State<TodoList> {
   bool boot = true;
   String todoText = "";
   List<String> todos = [];
-  List<Map> todosMap = [];
+  Map todosMap = {};
 
   final TextEditingController _todoListTextController = TextEditingController();
   // controlls the field used to input to do list items
@@ -44,21 +44,21 @@ class _TodoListState extends State<TodoList> {
   }
 // gives path to local documents directory used to store list items
 
-  Future<File> get _localListFile async {
-    final path = await _localPath;
-    return File('$path/list.txt');
+  File get _localListFile {
+    final path = _localPath;
+    return File('$path/list.json');
   }
 
 // gives a file in which the todo list is stored
 
-  Future<List<String>> get _listFileData async {
+  Future<String> get _listFileData {
     // loads file data into list of strings for further proccessing
     try {
-      final listFile = await _localListFile;
-      final listFileData = await listFile.readAsLines();
+      final listFile = _localListFile;
+      final listFileData = listFile.readAsString();
       return listFileData;
     } catch (e) {
-      return [];
+      return Future(() => "");
     }
   }
 
@@ -69,14 +69,7 @@ class _TodoListState extends State<TodoList> {
     // create instance of list file data to use
 
     if (listFileData.isNotEmpty) {
-      for (var i = 0; i < listFileData.length; i += 3) {
-        setState(() {
-          todosMap.add({
-            "id": int.parse(listFileData[i]),
-            "text": (listFileData[i + 1]),
-            "checked": bool.parse(listFileData[i + 2]),
-          });
-        });
+        todosMap.map((key, value) => )
       }
     }
     // incase the list file isn't empty or unusable iterate
@@ -84,7 +77,7 @@ class _TodoListState extends State<TodoList> {
     // values to poplate the todosMap
   }
 
-  void _appendTodoFile(Map todoMap) async {
+  void _writeTodosToJson(Map todoMap) async {
     // used to append the file with new todo list items
     //  should be called each time a new item is added
 
@@ -94,8 +87,9 @@ class _TodoListState extends State<TodoList> {
     final todoText = todoMap["text"];
     final todoChecked = todoMap["checked"];
 
-    listFile.writeAsString('$todoID\n$todoText\n$todoChecked\n',
-        mode: FileMode.append);
+    listFile.writeAsString(
+      '$todoID\n$todoText\n$todoChecked\n',
+    );
   }
 
   void _removeTodo(Map value) {
@@ -110,9 +104,8 @@ class _TodoListState extends State<TodoList> {
         DoNothingAction();
       } else {
         var time = DateTime.now().microsecondsSinceEpoch;
-        Map todoItemMap = {"text": todoText, "checked": false, "id": time};
-        todosMap.add(todoItemMap);
-        _appendTodoFile(todoItemMap);
+        Map todoItemMap = {"text": todoText, "checked": false};
+        todosMap[time.toString()] = todoItemMap;
       }
     });
   }
