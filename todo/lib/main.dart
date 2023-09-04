@@ -48,7 +48,7 @@ class _TodoListState extends State<TodoList> {
 
   Future<File> get _localListFile async {
     final path = await _localPath;
-    return File('$path/list.json');
+    return File('$path/list.json').create();
   }
 
 // gives a file in which the todo list is stored
@@ -65,14 +65,16 @@ class _TodoListState extends State<TodoList> {
   }
 
   void _loadTodoList() async {
-    // loads todo list items into their map
-
+    // loads todo listo items into their map
     final listFileData = await _listFileData;
-    // create instance of list file data to use
 
-    if (listFileData.isNotEmpty) {
-      todosMap = jsonDecode(listFileData);
-    }
+    setState(() {
+      // create instance of list file data to use
+
+      if (listFileData.isNotEmpty) {
+        todosMap = jsonDecode(listFileData);
+      }
+    });
   }
   // incase the list file isn't empty or unusable iterate
   // over it's list items in sets of 3 and use their
@@ -133,10 +135,11 @@ class _TodoListState extends State<TodoList> {
           Center(
             child: ListView(
               children: <Widget>[
-                for (var i = 0; i < todosMap.length; i++)
+                for (var value in todosMap.values)
                   TodoItem(
-                    todoMap: todosMap[i],
+                    todoMap: value,
                     removeTodoItem: _removeTodo,
+                    addItem: _addTodoItem,
                   )
               ],
             ),

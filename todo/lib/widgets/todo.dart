@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 
 class TodoItem extends StatefulWidget {
   const TodoItem(
-      {super.key, required this.todoMap, required this.removeTodoItem});
+      {super.key,
+      required this.todoMap,
+      required this.removeTodoItem,
+      required this.addItem});
 
   final Function removeTodoItem;
+  final Function addItem;
   final Map todoMap;
   final bool checked = false;
 
@@ -40,6 +44,7 @@ class _TodoItemState extends State<TodoItem> {
         onChanged: (bool? value) {
           setState(() {
             widget.todoMap["checked"] = value!;
+            widget.addItem();
           });
         },
       ),
