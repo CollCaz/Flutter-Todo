@@ -29,6 +29,7 @@ class TodoList extends StatefulWidget {
 }
 
 class _TodoListState extends State<TodoList> {
+  bool boot = true;
   String todoText = "";
   List<String> todos = [];
   List<Map> todosMap = [];
@@ -38,10 +39,62 @@ class _TodoListState extends State<TodoList> {
 
   Future<String> get _localPath async {
   final directory = await getApplicationDocumentsDirectory();
-
   return directory.path;
 }
 // gives path to local documents directory used to store list items
+
+  Future<File> get _localListFile async {
+    final path = await _localPath;
+    return File('$path/list.txt');
+}
+
+// gives a file in which the todo list is stored
+
+
+  Future<List<String>> get _listFileData async {
+  // loads file data into list of strings for further proccessing
+    try{
+      final listFile = await _localListFile;
+      final listFileData = await listFile.readAsLines();
+      return listFileData;
+    }
+    catch(e){
+      return [];
+    }
+  }
+
+  void _loadTodoList() async {
+    // loads todo list items into their map
+
+    final listFileData = await _listFileData;
+    // create instance of list file data to use
+
+    if (listFileData.isNotEmpty) {
+        for (var i = 0; i < listFileData.length; i += 3) {
+          
+          todosMap.add({
+            "text": listFileData[i],
+            "checked": bool.parse(listFileData[i+1]),
+            "id": int.parse(listFileData[i+2])
+          });
+        }
+        _addTodoItem();
+    }
+    // incase the list file isn't empty or unusable iterate 
+    // over it's list items in sets of 3 and use their
+    // values to poplate the todosMap
+  }
+
+  void _appendTodoFile(String text, int time) async{
+    // used to append the file with new todo list items 
+    //  should be called each time a new item is added
+
+    final listFile = await _localListFile;
+    // create instance of list file to use
+
+    listFile.writeAsString('$text\nfalse\n$time\n', mode: FileMode.append);
+    
+  }
 
   void _removeTodo(Map value) {
     setState(() {
@@ -51,18 +104,30 @@ class _TodoListState extends State<TodoList> {
 
   void _addTodoItem() {
     setState(() {
-      todoText == ""
-          ? DoNothingAction()
-          : todosMap.add({
-              "text": todoText,
-              "checked": false,
-              "id": DateTime.now().microsecondsSinceEpoch
-            });
+      if (todoText == "") {DoNothingAction();}
+      else{
+        var time = DateTime.now().microsecondsSinceEpoch;
+        todosMap.add({
+            "text": todoText,
+            "checked": false,
+            "id": time
+        });
+        _appendTodoFile(todoText, time);
+        }
     });
   }
 
+  
   @override
+
   Widget build(BuildContext context) {
+    if (boot) {
+      setState(() {
+        _loadTodoList();
+    });
+// loads up todo list once
+      boot = false;
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -93,7 +158,7 @@ class _TodoListState extends State<TodoList> {
                   _addTodoItem(), // adds item to "to do list"
                   _todoListTextController
                       .clear() // clears to text field for next input
-                },
+                  },
                 decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(15),
                     filled: true,
