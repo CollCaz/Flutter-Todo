@@ -1,6 +1,7 @@
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:todo/widgets/todo.dart';
+import 'dart:io';
 
 void main() {
   runApp(const TodoApp());
@@ -37,28 +38,26 @@ class _TodoListState extends State<TodoList> {
   // controlls the field used to input to do list items
 
   Future<String> get _localPath async {
-  final directory = await getApplicationDocumentsDirectory();
+    final directory = await getApplicationDocumentsDirectory();
 
-  return directory.path;
-}
+    return directory.path;
+  }
 // gives path to local documents directory used to store list items
 
   Future<File> get _localListFile async {
     final path = await _localPath;
     return File('$path/list.txt');
-}
+  }
 
 // gives a file in which the todo list is stored
 
-
   Future<List<String>> get _listFileData async {
-  // loads file data into list of strings for further proccessing
-    try{
+    // loads file data into list of strings for further proccessing
+    try {
       final listFile = await _localListFile;
       final listFileData = await listFile.readAsLines();
       return listFileData;
-    }
-    catch(e){
+    } catch (e) {
       return [];
     }
   }
@@ -70,31 +69,33 @@ class _TodoListState extends State<TodoList> {
     // create instance of list file data to use
 
     if (listFileData.isNotEmpty) {
-        for (var i = 0; i < listFileData.length; i += 3) {
-          
-          setState(() {
-            todosMap.add({
-              "id": int.parse(listFileData[i]),
-              "text": (listFileData[i+1]),
-              "checked": bool.parse(listFileData[i+2])
-            });
-});
-        }
+      for (var i = 0; i < listFileData.length; i += 3) {
+        setState(() {
+          todosMap.add({
+            "id": int.parse(listFileData[i]),
+            "text": (listFileData[i + 1]),
+            "checked": bool.parse(listFileData[i + 2])
+          });
+        });
+      }
     }
-    // incase the list file isn't empty or unusable iterate 
+    // incase the list file isn't empty or unusable iterate
     // over it's list items in sets of 3 and use their
     // values to poplate the todosMap
   }
 
-  void _appendTodoFile(String text, int time) async{
-    // used to append the file with new todo list items 
+  void _appendTodoFile(Map todoMap) async {
+    // used to append the file with new todo list items
     //  should be called each time a new item is added
 
     final listFile = await _localListFile;
     // create instance of list file to use
+    final todoID = todoMap["id"];
+    final todoText = todoMap["text"];
+    final todoChecked = todoMap["checked"];
 
-    listFile.writeAsString('$time\n$text\nfalse\n', mode: FileMode.append);
-    
+    listFile.writeAsString('$todoID\n$todoText\n$todoChecked\n',
+        mode: FileMode.append);
   }
 
   void _removeTodo(Map value) {
@@ -105,20 +106,16 @@ class _TodoListState extends State<TodoList> {
 
   void _addTodoItem() {
     setState(() {
-      if (todoText == "") {DoNothingAction();}
-      else{
+      if (todoText == "") {
+        DoNothingAction();
+      } else {
         var time = DateTime.now().microsecondsSinceEpoch;
-        todosMap.add({
-            "text": todoText,
-            "checked": false,
-            "id": time
-        });
+        todosMap.add({"text": todoText, "checked": false, "id": time});
         _appendTodoFile(todoText, time);
-        }
+      }
     });
   }
 
-  
   void _addTodoItemAndClearText() {
     setState(() {
       _addTodoItem();
@@ -127,12 +124,11 @@ class _TodoListState extends State<TodoList> {
   }
 
   @override
-
   Widget build(BuildContext context) {
     if (boot) {
       setState(() {
-      _loadTodoList();
-    });
+        _loadTodoList();
+      });
 // loads up todo list once
       boot = false;
     }
@@ -161,9 +157,7 @@ class _TodoListState extends State<TodoList> {
               child: TextField(
                 controller: _todoListTextController,
                 onChanged: (value) => todoText = value,
-                onSubmitted: (value) => {
-                  _addTodoItemAndClearText()
-                },
+                onSubmitted: (value) => {_addTodoItemAndClearText()},
                 decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(15),
                     filled: true,
