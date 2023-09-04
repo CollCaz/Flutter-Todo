@@ -74,7 +74,7 @@ class _TodoListState extends State<TodoList> {
           todosMap.add({
             "id": int.parse(listFileData[i]),
             "text": (listFileData[i + 1]),
-            "checked": bool.parse(listFileData[i + 2])
+            "checked": bool.parse(listFileData[i + 2]),
           });
         });
       }
@@ -110,8 +110,9 @@ class _TodoListState extends State<TodoList> {
         DoNothingAction();
       } else {
         var time = DateTime.now().microsecondsSinceEpoch;
-        todosMap.add({"text": todoText, "checked": false, "id": time});
-        _appendTodoFile(todoText, time);
+        Map todoItemMap = {"text": todoText, "checked": false, "id": time};
+        todosMap.add(todoItemMap);
+        _appendTodoFile(todoItemMap);
       }
     });
   }
@@ -146,7 +147,7 @@ class _TodoListState extends State<TodoList> {
                   TodoItem(
                     todoMap: todosMap[i],
                     removeTodoItem: _removeTodo,
-                  ),
+                  )
               ],
             ),
           ),

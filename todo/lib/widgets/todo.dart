@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 
 class TodoItem extends StatefulWidget {
+  const TodoItem(
+      {super.key, required this.todoMap, required this.removeTodoItem});
+
   final Function removeTodoItem;
   final Map todoMap;
   final bool checked = false;
-  const TodoItem(
-      {super.key, required this.todoMap, required this.removeTodoItem});
+
+  void saveTodoItem(s) {
+    print(s);
+  }
 
   @override
   State<TodoItem> createState() => _TodoItemState();
