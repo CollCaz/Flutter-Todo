@@ -80,7 +80,7 @@ class _TodoListState extends State<TodoList> {
   // over it's list items in sets of 3 and use their
   // values to poplate the todosMap
 
-  void _writeTodosToJson(Map todoMap) async {
+  void _writeTodosToJson(Map todosMap) async {
     // used to append the file with new todo list items
     //  should be called each time a new item is added
 
@@ -90,9 +90,10 @@ class _TodoListState extends State<TodoList> {
     listFile.writeAsString(jsonEncode(todosMap));
   }
 
-  void _removeTodo(Map value) {
+  void _removeTodo(String ID) {
     setState(() {
-      todosMap.remove(value);
+      todosMap.remove(ID);
+      _writeTodosToJson(todosMap);
     });
   }
 
@@ -103,7 +104,7 @@ class _TodoListState extends State<TodoList> {
         DoNothingAction();
       } else {
         var time = DateTime.now().microsecondsSinceEpoch;
-        Map todoItemMap = {"text": todoText, "checked": false};
+        Map todoItemMap = {"text": todoText, "checked": false, "ID": time};
         todosMap[time.toString()] = todoItemMap;
       }
     });

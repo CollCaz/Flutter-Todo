@@ -29,7 +29,7 @@ class _TodoItemState extends State<TodoItem> {
         secondary: IconButton(
             onPressed: () {
               setState(() {
-                widget.removeTodoItem(widget.todoMap);
+                widget.removeTodoItem(widget.todoMap["ID"].toString());
               });
             },
             icon: const Icon(Icons.delete)),
@@ -44,7 +44,6 @@ class _TodoItemState extends State<TodoItem> {
         onChanged: (bool? value) {
           setState(() {
             widget.todoMap["checked"] = value!;
-            widget.addItem();
           });
         },
       ),
