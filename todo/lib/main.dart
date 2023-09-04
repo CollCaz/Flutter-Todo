@@ -46,17 +46,17 @@ class _TodoListState extends State<TodoList> {
   }
 // gives path to local documents directory used to store list items
 
-  File get _localListFile {
-    final path = _localPath;
+  Future<File> get _localListFile async {
+    final path = await _localPath;
     return File('$path/list.json');
   }
 
 // gives a file in which the todo list is stored
 
-  Future<String> get _listFileData {
+  Future<String> get _listFileData async {
     // loads file data into list of strings for further proccessing
     try {
-      final listFile = _localListFile;
+      final listFile = await _localListFile;
       final listFileData = listFile.readAsString();
       return listFileData;
     } catch (e) {
@@ -71,27 +71,21 @@ class _TodoListState extends State<TodoList> {
     // create instance of list file data to use
 
     if (listFileData.isNotEmpty) {
-        todosMap = jsonDecode(listFileData);
-      }
+      todosMap = jsonDecode(listFileData);
     }
-    // incase the list file isn't empty or unusable iterate
-    // over it's list items in sets of 3 and use their
-    // values to poplate the todosMap
-  
+  }
+  // incase the list file isn't empty or unusable iterate
+  // over it's list items in sets of 3 and use their
+  // values to poplate the todosMap
 
   void _writeTodosToJson(Map todoMap) async {
     // used to append the file with new todo list items
     //  should be called each time a new item is added
 
-    final listFile =  _localListFile;
+    final listFile = await _localListFile;
     // create instance of list file to use
-    final todoID = todoMap["id"];
-    final todoText = todoMap["text"];
-    final todoChecked = todoMap["checked"];
 
-    listFile.writeAsString(
-      '$todoID\n$todoText\n$todoChecked\n',
-    );
+    listFile.writeAsString(jsonEncode(todosMap));
   }
 
   void _removeTodo(Map value) {
@@ -108,6 +102,7 @@ class _TodoListState extends State<TodoList> {
         var time = DateTime.now().microsecondsSinceEpoch;
         Map todoItemMap = {"text": todoText, "checked": false};
         todosMap[time.toString()] = todoItemMap;
+        _writeTodosToJson(todosMap);
       }
     });
   }
