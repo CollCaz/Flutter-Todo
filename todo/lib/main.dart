@@ -71,19 +71,19 @@ class _TodoListState extends State<TodoList> {
     // create instance of list file data to use
 
     if (listFileData.isNotEmpty) {
-        todosMap = jsonDecode(listFileData)
+        todosMap = jsonDecode(listFileData);
       }
     }
     // incase the list file isn't empty or unusable iterate
     // over it's list items in sets of 3 and use their
     // values to poplate the todosMap
-  }
+  
 
   void _writeTodosToJson(Map todoMap) async {
     // used to append the file with new todo list items
     //  should be called each time a new item is added
 
-    final listFile =  await ;
+    final listFile =  _localListFile;
     // create instance of list file to use
     final todoID = todoMap["id"];
     final todoText = todoMap["text"];
