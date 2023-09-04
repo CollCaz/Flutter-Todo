@@ -97,6 +97,7 @@ class _TodoListState extends State<TodoList> {
   }
 
   void _addTodoItem() {
+    _writeTodosToJson(todosMap);
     setState(() {
       if (todoText == "") {
         DoNothingAction();
@@ -104,7 +105,6 @@ class _TodoListState extends State<TodoList> {
         var time = DateTime.now().microsecondsSinceEpoch;
         Map todoItemMap = {"text": todoText, "checked": false};
         todosMap[time.toString()] = todoItemMap;
-        _writeTodosToJson(todosMap);
       }
     });
   }
@@ -113,6 +113,7 @@ class _TodoListState extends State<TodoList> {
     setState(() {
       _addTodoItem();
       _todoListTextController.clear();
+      todoText = "";
     });
   }
 
@@ -139,7 +140,7 @@ class _TodoListState extends State<TodoList> {
                   TodoItem(
                     todoMap: value,
                     removeTodoItem: _removeTodo,
-                    addItem: _addTodoItem,
+                    addItem: _addTodoItemAndClearText,
                   )
               ],
             ),
