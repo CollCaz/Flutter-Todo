@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:todo/widgets/todo.dart';
@@ -69,7 +71,7 @@ class _TodoListState extends State<TodoList> {
     // create instance of list file data to use
 
     if (listFileData.isNotEmpty) {
-        todosMap.map((key, value) => )
+        todosMap = jsonDecode(listFileData)
       }
     }
     // incase the list file isn't empty or unusable iterate
@@ -81,7 +83,7 @@ class _TodoListState extends State<TodoList> {
     // used to append the file with new todo list items
     //  should be called each time a new item is added
 
-    final listFile = await _localListFile;
+    final listFile =  await ;
     // create instance of list file to use
     final todoID = todoMap["id"];
     final todoText = todoMap["text"];
