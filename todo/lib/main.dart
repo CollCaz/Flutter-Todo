@@ -37,10 +37,10 @@ class _TodoListState extends State<TodoList> {
   // controlls the field used to input to do list items
 
   Future<String> get _localPath async {
-  final directory = await getApplicationDocumentsDirectory();
+    final directory = await getApplicationDocumentsDirectory();
 
-  return directory.path;
-}
+    return directory.path;
+  }
 // gives path to local documents directory used to store list items
 
   void _removeTodo(Map value) {
