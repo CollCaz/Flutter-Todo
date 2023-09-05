@@ -1,5 +1,3 @@
-import 'dart:io';
-import 'dart:convert';
 import 'package:flutter/material.dart';
 
 class TodoItem extends StatefulWidget {
@@ -7,21 +5,15 @@ class TodoItem extends StatefulWidget {
       {super.key,
       required this.todoMap,
       required this.removeTodoItem,
-      required this.addItem,
-      required this.dataFile,
-      required this.todosMap});
+      required this.addItem});
 
   final Function removeTodoItem;
   final Function addItem;
   final Map todoMap;
   final bool checked = false;
-  final Future<File> dataFile;
-  final Map todosMap;
-  void save() async{
-    // saves the todo list items map to a json file
 
-    final file = await dataFile;
-    file.writeAsString(jsonEncode(todosMap.toString()));
+  void saveTodoItem(s) {
+    print(s);
   }
 
   @override
@@ -52,7 +44,7 @@ class _TodoItemState extends State<TodoItem> {
         onChanged: (bool? value) {
           setState(() {
             widget.todoMap["checked"] = value!;
-            widget.save();
+            widget.addItem;
           });
         },
       ),
