@@ -90,13 +90,13 @@ class _TodoListState extends State<TodoList> {
     listFile.writeAsString(jsonEncode(todosMap));
   }
 
-  // ignore: non_constant_identifier_names
-  void _removeTodo(String ID) {
-    setState(() {
-      todosMap.remove(ID);
-      _writeTodosToJson(todosMap);
-    });
-  }
+  // // ignore: non_constant_identifier_names
+  // void _removeTodo(String ID) {
+  //   setState(() {
+  //     todosMap.remove(ID);
+  //     _writeTodosToJson(todosMap);
+  //   });
+  // }
 
   void _addTodoItem() {
     _writeTodosToJson(todosMap);
@@ -141,10 +141,9 @@ class _TodoListState extends State<TodoList> {
                 for (var value in todosMap.values)
                   TodoItem(
                     todoMap: value,
-                    removeTodoItem: _removeTodo,
                     addItem: _addTodoItemAndClearText,
-//                    dataFile: _localListFile,
-//                  todosMap: todosMap,
+                    dataFile: _localListFile,
+                    todosMap: todosMap,
                   )
               ],
             ),

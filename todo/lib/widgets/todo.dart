@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'dart:convert';
 
 class TodoItem extends StatefulWidget {
   const TodoItem(
       {super.key,
       required this.todoMap,
-      required this.removeTodoItem,
-      required this.addItem});
+      required this.addItem,
+      required this.todosMap,
+      required this.dataFile});
 
-  final Function removeTodoItem;
   final Function addItem;
   final Map todoMap;
+  final Map todosMap;
+  final Future<File> dataFile;
   final bool checked = false;
 
-  void saveTodoItem(s) {
-    print(s);
+  void save() async {
+    final file = await dataFile;
+    file.writeAsString(jsonEncode(todosMap));
   }
-
+  void remove() {
+    todosMap.remove(todoMap["ID"].toString());
+    save();
+  }
   @override
   State<TodoItem> createState() => _TodoItemState();
 }
@@ -27,10 +35,10 @@ class _TodoItemState extends State<TodoItem> {
       child: CheckboxListTile(
         value: widget.todoMap["checked"],
         secondary: IconButton(
-            onPressed: () {
+            onPressed: () => {
               setState(() {
-                widget.removeTodoItem(widget.todoMap["ID"].toString());
-              });
+                widget.remove();
+              })
             },
             icon: const Icon(Icons.delete)),
         controlAffinity: ListTileControlAffinity.platform,
@@ -45,6 +53,7 @@ class _TodoItemState extends State<TodoItem> {
           setState(() {
             widget.todoMap["checked"] = value!;
             widget.addItem;
+            widget.save();
           });
         },
       ),
