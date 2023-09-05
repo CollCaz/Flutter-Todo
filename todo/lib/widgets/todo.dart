@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:convert';
@@ -8,9 +10,11 @@ class TodoItem extends StatefulWidget {
       required this.todoMap,
       required this.addItem,
       required this.todosMap,
-      required this.dataFile});
+      required this.dataFile,
+      required this.updateTodos});
 
   final Function addItem;
+  final Function updateTodos;
   final Map todoMap;
   final Map todosMap;
   final Future<File> dataFile;
@@ -20,10 +24,11 @@ class TodoItem extends StatefulWidget {
     final file = await dataFile;
     file.writeAsString(jsonEncode(todosMap));
   }
-  void remove() {
+  void removeSelf() {
     todosMap.remove(todoMap["ID"].toString());
     save();
   }
+
   @override
   State<TodoItem> createState() => _TodoItemState();
 }
@@ -37,7 +42,8 @@ class _TodoItemState extends State<TodoItem> {
         secondary: IconButton(
             onPressed: () => {
               setState(() {
-                widget.remove();
+                widget.removeSelf();
+                widget.updateTodos();
               })
             },
             icon: const Icon(Icons.delete)),

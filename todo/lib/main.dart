@@ -142,6 +142,7 @@ class _TodoListState extends State<TodoList> {
                   TodoItem(
                     todoMap: value,
                     addItem: _addTodoItemAndClearText,
+                    updateTodos: () => {setState((){})},
                     dataFile: _localListFile,
                     todosMap: todosMap,
                   )
