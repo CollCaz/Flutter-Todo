@@ -72,7 +72,7 @@ class _TodoListState extends State<TodoList> {
       // create instance of list file data to use
 
       if (listFileData.isNotEmpty) {
-        todosMap = Map.from(jsonDecode(listFileData));
+        todosMap = jsonDecode(listFileData);
       }
     });
   }
@@ -143,8 +143,8 @@ class _TodoListState extends State<TodoList> {
                     todoMap: value,
                     removeTodoItem: _removeTodo,
                     addItem: _addTodoItemAndClearText,
-                    dataFile: _localListFile,
-                    todosMap: todosMap,
+//                    dataFile: _localListFile,
+//                  todosMap: todosMap,
                   )
               ],
             ),
