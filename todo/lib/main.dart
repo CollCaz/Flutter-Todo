@@ -80,26 +80,8 @@ class _TodoListState extends State<TodoList> {
   // over it's list items in sets of 3 and use their
   // values to poplate the todosMap
 
-  void _writeTodosToJson(Map todosMap) async {
-    // used to append the file with new todo list items
-    //  should be called each time a new item is added
-
-    final listFile = await _localListFile;
-    // create instance of list file to use
-
-    listFile.writeAsString(jsonEncode(todosMap));
-  }
-
-  // // ignore: non_constant_identifier_names
-  // void _removeTodo(String ID) {
-  //   setState(() {
-  //     todosMap.remove(ID);
-  //     _writeTodosToJson(todosMap);
-  //   });
-  // }
-
   void _addTodoItem() {
-    _writeTodosToJson(todosMap);
+    
     setState(() {
       if (todoText == "") {
         DoNothingAction();
@@ -141,7 +123,6 @@ class _TodoListState extends State<TodoList> {
                 for (var value in todosMap.values)
                   TodoItem(
                     todoMap: value,
-                    addItem: _addTodoItemAndClearText,
                     updateTodos: () => {setState((){})},
                     dataFile: _localListFile,
                     todosMap: todosMap,

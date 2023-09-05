@@ -8,17 +8,17 @@ class TodoItem extends StatefulWidget {
   const TodoItem(
       {super.key,
       required this.todoMap,
-      required this.addItem,
       required this.todosMap,
       required this.dataFile,
       required this.updateTodos});
 
-  final Function addItem;
+
   final Function updateTodos;
   final Map todoMap;
   final Map todosMap;
   final Future<File> dataFile;
   final bool checked = false;
+  final bool fresh = true;
 
   void save() async {
     final file = await dataFile;
@@ -36,15 +36,16 @@ class TodoItem extends StatefulWidget {
 class _TodoItemState extends State<TodoItem> {
   @override
   Widget build(BuildContext context) {
+    if (widget.fresh) {
+      widget.save();
+    }
     return Card(
       child: CheckboxListTile(
         value: widget.todoMap["checked"],
         secondary: IconButton(
             onPressed: () => {
-              setState(() {
-                widget.removeSelf();
-                widget.updateTodos();
-              })
+              widget.removeSelf(),
+              widget.updateTodos()
             },
             icon: const Icon(Icons.delete)),
         controlAffinity: ListTileControlAffinity.platform,
@@ -58,7 +59,6 @@ class _TodoItemState extends State<TodoItem> {
         onChanged: (bool? value) {
           setState(() {
             widget.todoMap["checked"] = value!;
-            widget.addItem;
             widget.save();
           });
         },
