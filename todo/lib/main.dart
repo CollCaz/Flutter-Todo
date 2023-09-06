@@ -33,10 +33,12 @@ class TodoList extends StatefulWidget {
 class _TodoListState extends State<TodoList> {
   bool boot = true;
   String todoText = "";
+  String todoDescText = "";
   List<String> todos = [];
   Map todosMap = {};
 
   final TextEditingController _todoListTextController = TextEditingController();
+    final TextEditingController _todoDescTextController = TextEditingController();
   // controlls the field used to input to do list items
 
   Future<String> get _localPath async {
@@ -80,24 +82,39 @@ class _TodoListState extends State<TodoList> {
   // over it's list items in sets of 3 and use their
   // values to poplate the todosMap
 
-  void _addTodoItem() {
-    
-    setState(() {
+  String addDesc() {
+    if (todoDescText.isEmpty) {
+      return "";
+      }
+
+    return todoDescText;
+  }
+
+  bool _addTodoItem() {
       if (todoText == "") {
         DoNothingAction();
-      } else {
-        var time = DateTime.now().microsecondsSinceEpoch;
-        Map todoItemMap = {"text": todoText, "checked": false, "ID": time};
-        todosMap[time.toString()] = todoItemMap;
+        return false;
+      } 
+      else {
+          setState(() {
+          var time = DateTime.now().microsecondsSinceEpoch;
+          Map todoItemMap = {"text": todoText, "checked": false, "ID": time,
+                              "descText": addDesc()};
+          todosMap[time.toString()] = todoItemMap;
+          });
+        return true;
       }
-    });
   }
 
   void _addTodoItemAndClearText() {
     setState(() {
-      _addTodoItem();
+      bool added = _addTodoItem();
+
+      if (added) {
       _todoListTextController.clear();
+      _todoDescTextController.clear();
       todoText = "";
+      }
     });
   }
 
@@ -110,6 +127,7 @@ class _TodoListState extends State<TodoList> {
 // loads up todo list once
       boot = false;
     }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -134,15 +152,29 @@ class _TodoListState extends State<TodoList> {
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: const EdgeInsets.all(2),
-              child: TextField(
-                controller: _todoListTextController,
-                onChanged: (value) => todoText = value,
-                onSubmitted: (value) => {_addTodoItemAndClearText()},
-                decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.all(15),
-                    filled: true,
-                    fillColor: Theme.of(context).colorScheme.inversePrimary,
-                    hintText: "What do you want to do?"),
+              child: Column(
+                children: [
+                  TextField(
+                    controller: _todoListTextController,
+                    onChanged: (value) => todoText = value,
+                    onSubmitted: (value) => {_addTodoItemAndClearText()},
+                    decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.all(15),
+                        filled: true,
+                        fillColor: Theme.of(context).colorScheme.inversePrimary,
+                        hintText: "What do you want to do?"),
+                  ),
+                    TextField(
+                    controller: _todoDescTextController,
+                    onChanged: (value) => todoDescText = value,
+                    onSubmitted: (value) => {_addTodoItemAndClearText()},
+                    decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.all(15),
+                        filled: true,
+                        fillColor: Theme.of(context).colorScheme.inversePrimary,
+                        hintText: "Description"),
+                  )
+                ],
               ),
             ),
           ),
@@ -156,3 +188,4 @@ class _TodoListState extends State<TodoList> {
     );
   }
 }
+

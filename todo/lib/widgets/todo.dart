@@ -21,9 +21,12 @@ class TodoItem extends StatefulWidget {
   final bool fresh = true;
 
   void save() async {
+    // saves the current state of the todosMap to a JSON file
+
     final file = await dataFile;
     file.writeAsString(jsonEncode(todosMap));
   }
+
   void removeSelf() {
     todosMap.remove(todoMap["ID"].toString());
     save();
@@ -39,29 +42,36 @@ class _TodoItemState extends State<TodoItem> {
     if (widget.fresh) {
       widget.save();
     }
+    // updates JSON file containing todosMap to include the newly created item
+
     return Card(
-      child: CheckboxListTile(
-        value: widget.todoMap["checked"],
-        secondary: IconButton(
-            onPressed: () => {
-              widget.removeSelf(),
-              widget.updateTodos()
+      child: Column(
+        children: [
+          CheckboxListTile(
+            value: widget.todoMap["checked"],
+            secondary: IconButton(
+                onPressed: () => {
+                  widget.removeSelf(),
+                  widget.updateTodos()
+                },
+                icon: const Icon(Icons.delete)),
+            controlAffinity: ListTileControlAffinity.platform,
+            title: Text(
+              widget.todoMap["text"],
+              style: TextStyle(
+                  decoration: widget.todoMap["checked"] == true
+                      ? TextDecoration.lineThrough
+                      : TextDecoration.none),
+            ),
+            onChanged: (bool? value) {
+              setState(() {
+                widget.todoMap["checked"] = value!;
+                widget.save();
+              });
             },
-            icon: const Icon(Icons.delete)),
-        controlAffinity: ListTileControlAffinity.platform,
-        title: Text(
-          widget.todoMap["text"],
-          style: TextStyle(
-              decoration: widget.todoMap["checked"] == true
-                  ? TextDecoration.lineThrough
-                  : TextDecoration.none),
-        ),
-        onChanged: (bool? value) {
-          setState(() {
-            widget.todoMap["checked"] = value!;
-            widget.save();
-          });
-        },
+          ),
+          Text(widget.todoMap["descText"].toString())
+        ],
       ),
     );
   }
