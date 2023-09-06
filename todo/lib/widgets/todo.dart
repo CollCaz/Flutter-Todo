@@ -48,6 +48,7 @@ class _TodoItemState extends State<TodoItem> {
       child: Column(
         children: [
           CheckboxListTile(
+            visualDensity: const VisualDensity(vertical: VisualDensity.minimumDensity),
             value: widget.todoMap["checked"],
             secondary: IconButton(
                 onPressed: () => {
@@ -70,7 +71,19 @@ class _TodoItemState extends State<TodoItem> {
               });
             },
           ),
-          Text(widget.todoMap["descText"].toString())
+          Padding(
+            padding: const EdgeInsets.only(bottom: 2.2),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Container( alignment: FractionalOffset.centerLeft,
+                child: Text(widget.todoMap["descText"].toString(),
+                            style: TextStyle(fontSize: widget.todoMap["descText"] == ""?
+                                                        0.0: 14.0,
+                                              color: Theme.of(context).colorScheme.primary.withOpacity(0.8)),
+                        ),
+              ),
+            )
+          )
         ],
       ),
     );

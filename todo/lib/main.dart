@@ -82,13 +82,6 @@ class _TodoListState extends State<TodoList> {
   // over it's list items in sets of 3 and use their
   // values to poplate the todosMap
 
-  String addDesc() {
-    if (todoDescText.isEmpty) {
-      return "";
-      }
-
-    return todoDescText;
-  }
 
   bool _addTodoItem() {
       if (todoText == "") {
@@ -99,7 +92,8 @@ class _TodoListState extends State<TodoList> {
           setState(() {
           var time = DateTime.now().microsecondsSinceEpoch;
           Map todoItemMap = {"text": todoText, "checked": false, "ID": time,
-                              "descText": addDesc()};
+                              "descText": todoDescText.isEmpty?
+                                          "": todoDescText};
           todosMap[time.toString()] = todoItemMap;
           });
         return true;
