@@ -148,11 +148,10 @@ class _TodoListState extends State<TodoList> {
               ],
             ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.all(2),
+          Padding(
+            padding: const EdgeInsets.all(0),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextField(
                     controller: _todoListTextController,
@@ -175,7 +174,6 @@ class _TodoListState extends State<TodoList> {
                         hintText: "Description"),
                   )
                 ],
-              ),
             ),
           ),
         ],
@@ -183,7 +181,8 @@ class _TodoListState extends State<TodoList> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => {_addTodoItemAndClearText()},
         tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        backgroundColor: Theme.of(context).colorScheme.onSecondary,
+        child: const Icon(Icons.add)
       ),
     );
   }
