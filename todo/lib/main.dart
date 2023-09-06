@@ -83,6 +83,7 @@ class _TodoListState extends State<TodoList> {
   // values to poplate the todosMap
 
 
+
   bool _addTodoItem() {
       if (todoText == "") {
         DoNothingAction();
@@ -157,16 +158,6 @@ class _TodoListState extends State<TodoList> {
                         fillColor: Theme.of(context).colorScheme.inversePrimary,
                         hintText: "What do you want to do?"),
                   ),
-                    TextField(
-                    controller: _todoDescTextController,
-                    onChanged: (value) => todoDescText = value,
-                    onSubmitted: (value) => {_addTodoItemAndClearText()},
-                    decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.all(15),
-                        filled: true,
-                        fillColor: Theme.of(context).colorScheme.inversePrimary,
-                        hintText: "Description"),
-                  )
                 ],
             ),
           ),

@@ -12,15 +12,13 @@ class TodoItem extends StatefulWidget {
       required this.dataFile,
       required this.updateTodos});
 
-
   final Function updateTodos;
   final Map todoMap;
   final Map todosMap;
   final Future<File> dataFile;
   final bool checked = false;
   final bool fresh = true;
-
-  void save() async {
+    void save() async {
     // saves the current state of the todosMap to a JSON file
 
     final file = await dataFile;
@@ -71,21 +69,46 @@ class _TodoItemState extends State<TodoItem> {
               });
             },
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 2.2),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Container( alignment: FractionalOffset.centerLeft,
-                child: Text(widget.todoMap["descText"].toString(),
-                            style: TextStyle(fontSize: widget.todoMap["descText"] == ""?
-                                                        0.0: 14.0,
-                                              color: Theme.of(context).colorScheme.primary.withOpacity(0.8)),
-                        ),
+          ExpansionTile(
+            title: Text("Show description",
+              style: TextStyle(fontSize: widget.todoMap["descText"] == ""?
+                0.0: 10.0,
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.6)),
+              maxLines: 1,
+              textScaleFactor: widget.todoMap["descText"] == ""?
+                  0.0:
+                  1.0
               ),
-            )
+            children: [TextField(autofocus: true,
+              onChanged: (value) => setState(() {
+                widget.todoMap["descText"] = value;
+              }),
+              onSubmitted: (value) => widget.save(),
+              onTapOutside: (event) => widget.save(),
+              controller: TextEditingController(text: widget.todoMap["descText"]),
+              minLines: 5, maxLines: null,
+              style: TextStyle(fontSize: widget.todoMap["descText"] == ""?
+                0.0: 14.0,
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.8)),
+                                ),
+            ]
           )
         ],
       ),
     );
   }
 }
+
+          // Padding(
+          //   padding: const EdgeInsets.only(bottom: 2.2),
+          //   child: Padding(
+          //     padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          //     child: Container( alignment: FractionalOffset.centerLeft,
+          //       child: Text(widget.todoMap["descText"].toString(),
+          //                   style: TextStyle(fontSize: widget.todoMap["descText"] == ""?
+          //                                               0.0: 14.0,
+          //                                     color: Theme.of(context).colorScheme.primary.withOpacity(0.8)),
+          //               ),
+          //     ),
+          //   )
+          // )
