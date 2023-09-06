@@ -18,6 +18,7 @@ class TodoItem extends StatefulWidget {
   final Future<File> dataFile;
   final bool checked = false;
   final bool fresh = true;
+
     void save() async {
     // saves the current state of the todosMap to a JSON file
 
@@ -79,16 +80,20 @@ class _TodoItemState extends State<TodoItem> {
                   0.0:
                   1.0
               ),
-            children: [TextField(autofocus: true,
-              onChanged: (value) => setState(() {
-                widget.todoMap["descText"] = value;
+            children: [TextField(autofocus: false,
+              
+              onChanged: (value) => 
+                  widget.todoMap["descText"] = value,
+
+              onSubmitted: (value) => setState(() {
+                widget.save();
               }),
-              onSubmitted: (value) => widget.save(),
-              onTapOutside: (event) => widget.save(),
+              onTapOutside: (event) => setState(() {
+                widget.save();
+              }),
               controller: TextEditingController(text: widget.todoMap["descText"]),
               minLines: 5, maxLines: null,
-              style: TextStyle(fontSize: widget.todoMap["descText"] == ""?
-                0.0: 14.0,
+              style: TextStyle(fontSize: 12,
                 color: Theme.of(context).colorScheme.primary.withOpacity(0.8)),
                                 ),
             ]
