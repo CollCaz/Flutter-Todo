@@ -71,31 +71,30 @@ class _TodoItemState extends State<TodoItem> {
             },
           ),
           ExpansionTile(
-            title: Text("Show description",
-              style: TextStyle(fontSize: widget.todoMap["descText"] == ""?
-                0.0: 10.0,
+            title: Text("Description",
+              style: TextStyle(fontSize: 10.0,
                 color: Theme.of(context).colorScheme.primary.withOpacity(0.6)),
-              maxLines: 1,
-              textScaleFactor: widget.todoMap["descText"] == ""?
-                  0.0:
-                  1.0
+              maxLines: 1
               ),
-            children: [TextField(autofocus: false,
-              
-              onChanged: (value) => 
-                  widget.todoMap["descText"] = value,
-
-              onSubmitted: (value) => setState(() {
-                widget.save();
-              }),
-              onTapOutside: (event) => setState(() {
-                widget.save();
-              }),
-              controller: TextEditingController(text: widget.todoMap["descText"]),
-              minLines: 5, maxLines: null,
-              style: TextStyle(fontSize: 12,
-                color: Theme.of(context).colorScheme.primary.withOpacity(0.8)),
-                                ),
+            children: [Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: TextField(autofocus: false,
+                decoration: const InputDecoration(hintText: "add description") ,
+                onChanged: (value) => 
+                    widget.todoMap["descText"] = value,
+            
+                onSubmitted: (value) => setState(() {
+                  widget.save();
+                }),
+                onTapOutside: (event) => setState(() {
+                  widget.save();
+                }),
+                controller: TextEditingController(text: widget.todoMap["descText"]),
+                minLines: 2, maxLines: null,
+                style: TextStyle(fontSize: 12,
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.8)),
+                                  ),
+            ),
             ]
           )
         ],
