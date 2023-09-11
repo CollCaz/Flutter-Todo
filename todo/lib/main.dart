@@ -124,23 +124,27 @@ class _TodoListState extends State<TodoList> {
     }
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
       body: Stack(
         children: [
-          Center(
-            child: ListView(
-              children: <Widget>[
-                for (var value in todosMap.values)
-                  TodoItem(
-                    todoMap: value,
-                    updateTodos: () => {setState((){})},
-                    dataFile: _localListFile,
-                    todosMap: todosMap,
-                  )
-              ],
+          Padding(
+            padding: const EdgeInsets.fromLTRB(2.0, 2.0, 2.0, 50.0),
+            child: Center(
+              child: ListView(
+                children: <Widget>[
+                  for (var value in todosMap.values)
+                    TodoItem(
+                      todoMap: value,
+                      updateTodos: () => {setState((){})},
+                      dataFile: _localListFile,
+                      todosMap: todosMap,
+                    )
+                ],
+              ),
             ),
           ),
           Padding(
