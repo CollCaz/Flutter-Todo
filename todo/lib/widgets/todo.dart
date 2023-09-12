@@ -30,7 +30,7 @@ class TodoItem extends StatefulWidget {
   void removeSelf(bool pending) {
     if (pending) {
       todosMap.remove(todoMap["ID"].toString());
-    save();
+      save();
     }
 
   }
@@ -56,6 +56,7 @@ class _TodoItemState extends State<TodoItem> {
       target: pendingRemoval? 1: 0,
       onComplete: (controller) => {
           widget.removeSelf(pendingRemoval),
+          controller.reset(),
           widget.updateTodos()
       },
       effects: [
