@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:todo/widgets/todo.dart';
@@ -143,7 +143,8 @@ class _TodoListState extends State<TodoList> {
                       dataFile: _localListFile,
                       todosMap: todosMap,
                     )
-                ],
+                ].animate(interval: 200.ms,)
+                .slideX(duration: 450.ms, begin: 1.0),
               ),
             ),
           ),
